@@ -1,54 +1,51 @@
 ---
 date_added: 2019-09-07
-title: LSC RGBW
+title: LSC RGBWW
 category: light
 type: LED Strip
 standard: eu
 link: https://www.action.com/de-de/p/lsc-smart-connect-intelligenter-multicolor-led-strip-/
 image: https://www.action.com/globalassets/cmsarticleimages/79/81/2578634_8712879142775-111.png?preset=mediaSliderImageLarge
-template: '{"NAME":"LSC RGBW Strip","GPIO":[51,0,0,0,37,40,0,0,38,41,39,0,0],"FLAG":0,"BASE":18}'
+template: '{"NAME":"LSC RGBWW Strip","GPIO":[17,0,0,51,37,40,0,0,38,41,39,0,0],"FLAG":0,"BASE":18}'
 link2: 
 ---
 ## Warning
 
-As of July 2020 this device comes with a Tuya WB3S module which cannot be flashed with Tasmota.     
-That module is pin compatible with ESP-12 and can ordered via Ebay. Replace the modul with a hot air gun. All LEDs are usable R,G,B,CW,WW and you can dimm it.
+As of July 2020 this device comes with a Tuya WB3S module which cannot be flashed with Tasmota. The board version is named: WiFi-TYWE3L-2-V1.1
+The Tuya WB3S module is pin compatible with ESP-12 and can ordered via Ebay. Replace the modul with a hot air gun and copy the actual Tasmota firmware in the ESP-12. All LEDs are usable R,G,B,CW,WW and you can dimm it.
 
 ![](https://open-boat-projects.org/wp-content/uploads/2020/08/WB3S_ESP8266_kl.png)
 
 ![](https://open-boat-projects.org/wp-content/uploads/2020/08/LSC_RGBW_LED_Stripe_kl.png)
 
-
-To use the build in IR Receiver connected to GPIO00 as IRrecv (if this cannot be selected under configuration use Tasmota-Sensors.bin) add the following rule via Command Line. 
+In the new board version is the IR Receiver connected to GPIO03 as IRrecv. To activate the IR commands open the console and copy and paste the following lines an finish with Enter.
 
 ```console
-Rule1 ON IrReceived#Data=0x00F740BF DO power Off ENDON ON IrReceived#Data=0x00F7C03F DO wakeup ENDON ON IrReceived#Data=0x00F700FF DO dimmer + ENDON ON IrReceived#Data=0x00F7807F DO dimmer - ENDON ON IrReceived#Data=0x00F720DF DO color 1 ENDON ON IrReceived#Data=0x00F7A05F DO color 2 ENDON ON IrReceived#Data=0x00F7609F DO color 3 ENDON ON IrReceived#Data=0x00F7E01F DO color 000000FF ENDON
+Rule1 ON IrReceived#Data=0x00FFB04F DO power Toggle ENDON ON IrReceived#Data=0x00FFB847 DO dimmer - ENDON ON IrReceived#Data=0x00FF906F DO dimmer + ENDON ON IrReceived#Data=0x00FF9867 DO color 1 ENDON ON IrReceived#Data=0x00FFD827 DO color 2 ENDON ON IrReceived#Data=0x00FF8877 DO color 3 ENDON ON IrReceived#Data=0x00FFE817 DO color 4 ENDON ON IrReceived#Data=0x00FF48B7 DO color 5 ENDON ON IrReceived#Data=0x00FF6897 DO color 6 ENDON ON IrReceived#Data=0x00FF02FD DO color 7 ENDON ON IrReceived#Data=0x00FF32CD DO color 8 ENDON ON IrReceived#Data=0x00FF20DF DO color 9 ENDON ON IrReceived#Data=0x00FF50AF DO color 10 ENDON ON IrReceived#Data=0x00FF708F DO color 11 ENDON ON IrReceived#Data=0x00FFA857 DO color #000000FF00 ENDON ON IrReceived#Data=0x00FFB24D DO color #00000000FF ENDON ON IrReceived#Data=0x00FF00FF DO color + ENDON ON IrReceived#Data=0x00FF58A7 DO color - ENDON Rule1 1
 ```
 
-Don't forget to enable the rule with 'Rule1 1'!
+The IR commands nearly complete:  
 
-The IR commands don't look complete but support ON/OFF and RGBW Color changes.  
-
-Other IR Commands  
-Light Red: `ON IrReceived#Data=0x00F710EF DO color #CC660000 ENDON`  
-Orange: `ON IrReceived#Data=0x00F730CF DO color #FF800000 ENDON`  
-Peach: `ON IrReceived#Data=0x00F708F7 DO color #FFB26600 ENDON`  
-Yellow: `ON IrReceived#Data=0x00F728D7 DO color 10 ENDON`  
-Light Green: `ON IrReceived#Data=0x00F7906F DO color #66FF6600 ENDON`  
-Cyan: `ON IrReceived#Data=0x00F7B04F DO color #99FF9900 ENDON`  
-Aqua Green: `ON IrReceived#Data=0x00F78877 DO color 8 ENDON`  
-Hunter Green: `ON IrReceived#Data=0x00F7A857 DO color #00660000 ENDON`  
-Light Blue: `ON IrReceived#Data=0x00F750AF DO color #9999FF00 ENDON`  
-Purple: `ON IrReceived#Data=0x00F7708F DO color #6600CC00 ENDON`  
-Light Purple: `ON IrReceived#Data=0x00F748B7 DO color 9 ENDON`  
-Pink: `ON IrReceived#Data=0x00F76897 DO color 11 ENDON`  
-
-Incomplete IR Commands  
-Flash: `ON IrReceived#Data=0x00F7D02F DO   ENDON`  
-Strobe: `ON IrReceived#Data=0x00F7F00F DO   ENDON`  
-Fade: `ON IrReceived#Data=0x00F7C837 DO Backlog Scheme 4; Speed 1 ENDON`  
-Smooth: `ON IrReceived#Data=0x00F7E817 DO Backlog Scheme 4; Speed 40 ENDON`  
-
+`Rule1`
+`ON IrReceived#Data=0x00FFB04F DO power Toggle ENDON`
+`ON IrReceived#Data=0x00FFB847 DO dimmer - ENDON`
+`ON IrReceived#Data=0x00FF906F DO dimmer + ENDON`
+`ON IrReceived#Data=0x00FF9867 DO color 1 ENDON`
+`ON IrReceived#Data=0x00FFD827 DO color 2 ENDON`
+`ON IrReceived#Data=0x00FF8877 DO color 3 ENDON`
+`ON IrReceived#Data=0x00FFE817 DO color 4 ENDON`
+`ON IrReceived#Data=0x00FF48B7 DO color 5 ENDON`
+`ON IrReceived#Data=0x00FF6897 DO color 6 ENDON`
+`ON IrReceived#Data=0x00FF02FD DO color 7 ENDON`
+`ON IrReceived#Data=0x00FF32CD DO color 8 ENDON`
+`ON IrReceived#Data=0x00FF20DF DO color 9 ENDON`
+`ON IrReceived#Data=0x00FF50AF DO color 10 ENDON`
+`ON IrReceived#Data=0x00FF708F DO color 11 ENDON`
+`ON IrReceived#Data=0x00FFA857 DO color #000000FF00 ENDON`
+`ON IrReceived#Data=0x00FFB24D DO color #00000000FF ENDON`
+`ON IrReceived#Data=0x00FF00FF DO color + ENDON`
+`ON IrReceived#Data=0x00FF58A7 DO color - ENDON`
+`Rule1 1`
 
 [Source for IR settings](https://www.circuitsonline.net/forum/view/146361/3)
 
